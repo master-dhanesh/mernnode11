@@ -12,9 +12,22 @@
             <% users.forEach(user => { %>
             <!--  -->
             <li>
-                <%= user.name %> | <a href="/delete/<%= user._id %>">❌</a> |
+                <a href="/details/<%= user._id%>"> <%= user.name %> </a>
+                | <a href="/delete/<%= user._id %>">❌</a> |
                 <a href="/update/<%= user._id%>">✏️</a> |
                 <a href="/post/create/<%= user._id%>">➕</a>
+            </li>
+            <!--  -->
+            <% }) %>
+        </ul>
+        <hr />
+        <ul>
+            <% posts.forEach(post => { %>
+            <!--  -->
+            <li>
+                Created By: <%= post.user.name %> | <%= post.title %> |
+                <a href="/post/delete/<%= post._id %>">❌</a> |
+                <a href="/post/update/<%= post._id%>">✏️</a> |
             </li>
             <!--  -->
             <% }) %>

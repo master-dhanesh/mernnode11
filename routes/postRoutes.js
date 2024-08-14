@@ -28,4 +28,16 @@ router.post("/create/:userid", async (req, res) => {
     }
 });
 
+router.get("/delete/:postid", async (req, res) => {
+    try {
+        const post = await Post.findByIdAndDelete(req.params.postid);
+        const user = await User.findById(post.user);
+        await user.posts.pull(post._id);
+        await user.save();
+        res.redirect("/");
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
 module.exports = router;

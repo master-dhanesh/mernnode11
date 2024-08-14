@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/userSchema");
+const Post = require("../models/postSchema");
 
 router.get("/", async (req, res) => {
     try {
         const users = await User.find().select("+password");
-        res.render("index", { users: users });
+        const posts = await Post.find().populate("user");
+        res.render("index", { users: users, posts: posts });
     } catch (error) {
         res.status(500).send(error.message);
     }
@@ -66,4 +68,12 @@ router.post("/update/:id", async (req, res) => {
     }
 });
 
+router.get("/details/:userid", async (req, res) => {
+    try {
+        const user = await User.findById(req.params.userid).populate("posts");
+        res.render("userdetail", { user: user });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 module.exports = router;
